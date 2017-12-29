@@ -109,7 +109,7 @@ export default class Main {
               item.drawToCanvas(ctx)
             })
 
-    this.player.drawToCanvas(ctx)
+    this.player.draw(ctx)
 
     databus.animations.forEach((ani) => {
       if ( ani.isPlaying ) {

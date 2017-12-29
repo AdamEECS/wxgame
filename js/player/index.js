@@ -8,21 +8,28 @@ const ground_h = 128
 
 // 玩家相关常量设置
 const PLAYER_IMG_SRC = 'images/bird-01.png'
-const PLAYER_WIDTH   = 80
-const PLAYER_HEIGHT  = 80
+const PLAYER_IMG_SRC_ = 'images/bird-0{}.png'
+const PLAYER_WIDTH   = 34
+const PLAYER_HEIGHT  = 24
 
 let databus = new DataBus()
 
 export default class Player extends Sprite {
   constructor() {
     super(PLAYER_IMG_SRC, PLAYER_WIDTH, PLAYER_HEIGHT)
+    this.img.src_ = PLAYER_IMG_SRC_
+    this.img.srcNum = 1
 
     // 玩家默认处于屏幕底部居中位置
     this.x = screenWidth / 2 - this.width / 2
     // this.y = screenHeight - this.height - 30
     this.y = screenHeight / 2 - this.height / 2
 
+    this.w = this.width
+    this.h = this.height
+
     this.vy = 0
+    this.rotation = 0
 
     // 用于在手指移动的时候标识手指是否已经在飞机上了
     this.touched = false
@@ -93,6 +100,7 @@ export default class Player extends Sprite {
       }
 
       this.vy = -5
+      this.rotation = -45
 
     }).bind(this))
 
@@ -132,9 +140,43 @@ export default class Player extends Sprite {
   update() {
       this.y += this.vy
       this.vy += 0.1
+
+      this.rotation += 1
+      if (this.rotation >= 45) {
+          this.rotation = 45
+      }
+
       var groundPositon = screenHeight - this.height - ground_h
       if (this.y > groundPositon) {
           this.y = groundPositon
       }
+      if ( databus.frame % 5 === 0 ) {
+          this.img.srcNum ++
+          if (this.img.srcNum > 3) {
+              this.img.srcNum = 1
+          }
+        //   console.log(this.img.srcNum)
+          this.img.src = this.img.src_.replace('{}', this.img.srcNum)
+
+      }
+    //   console.log(this.img.src)
+
   }
+
+  draw(ctx) {
+        ctx.save()
+
+        var w2 = this.w / 2
+        var h2 = this.h / 2
+        ctx.translate(this.x + w2, this.y + h2)
+        if (this.flipX) {
+            ctx.scale(-1, 1)
+        }
+        ctx.rotate(this.rotation * Math.PI / 180)
+        ctx.translate(-w2, -h2)
+        ctx.drawImage(this.img, 0, 0, this.width, this.height)
+
+        ctx.restore()
+
+    }
 }
