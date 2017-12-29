@@ -6,7 +6,7 @@ const screenWidth    = window.innerWidth
 const screenHeight   = window.innerHeight
 
 // 玩家相关常量设置
-const PLAYER_IMG_SRC = 'images/hero.png'
+const PLAYER_IMG_SRC = 'images/bird-01.png'
 const PLAYER_WIDTH   = 80
 const PLAYER_HEIGHT  = 80
 
@@ -18,7 +18,10 @@ export default class Player extends Sprite {
 
     // 玩家默认处于屏幕底部居中位置
     this.x = screenWidth / 2 - this.width / 2
-    this.y = screenHeight - this.height - 30
+    // this.y = screenHeight - this.height - 30
+    this.y = screenHeight / 2 - this.height / 2
+
+    this.vy = 0
 
     // 用于在手指移动的时候标识手指是否已经在飞机上了
     this.touched = false
@@ -88,6 +91,8 @@ export default class Player extends Sprite {
         this.setAirPosAcrossFingerPosZ(x, y)
       }
 
+      this.vy = -5
+
     }).bind(this))
 
     canvas.addEventListener('touchmove', ((e) => {
@@ -122,5 +127,13 @@ export default class Player extends Sprite {
     )
 
     databus.bullets.push(bullet)
+  }
+  update() {
+      this.y += this.vy
+      this.vy += 0.1
+ 
+      if (this.y > screenHeight - this.height) {
+          this.y = screenHeight - this.height
+      }
   }
 }
