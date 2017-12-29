@@ -123,6 +123,7 @@ export default class Main {
   // 游戏逻辑更新主函数
   update() {
     this.bg.update()
+    this.player.update()
 
     databus.bullets
            .concat(databus.enemys)
@@ -130,7 +131,7 @@ export default class Main {
               item.update()
             })
 
-    this.enemyGenerate()
+    // this.enemyGenerate()
 
     this.collisionDetection()
   }
@@ -143,8 +144,8 @@ export default class Main {
     this.render()
 
     if ( databus.frame % 20 === 0 ) {
-      this.player.shoot()
-      this.music.playShoot()
+    //   this.player.shoot()
+    //   this.music.playShoot()
     }
 
     // 游戏结束停止帧循环
