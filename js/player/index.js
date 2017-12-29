@@ -4,6 +4,7 @@ import DataBus  from '../databus'
 
 const screenWidth    = window.innerWidth
 const screenHeight   = window.innerHeight
+const ground_h = 128
 
 // 玩家相关常量设置
 const PLAYER_IMG_SRC = 'images/bird-01.png'
@@ -131,9 +132,9 @@ export default class Player extends Sprite {
   update() {
       this.y += this.vy
       this.vy += 0.1
- 
-      if (this.y > screenHeight - this.height) {
-          this.y = screenHeight - this.height
+      var groundPositon = screenHeight - this.height - ground_h
+      if (this.y > groundPositon) {
+          this.y = groundPositon
       }
   }
 }

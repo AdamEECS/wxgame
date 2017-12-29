@@ -3,9 +3,11 @@ import Sprite from '../base/sprite'
 const screenWidth  = window.innerWidth
 const screenHeight = window.innerHeight
 
-const BG_IMG_SRC   = 'images/bg.jpg'
-const BG_WIDTH     = 512
-const BG_HEIGHT    = 512
+const BG_IMG_SRC   = 'images/background.png'
+const BG_WIDTH     = 768
+const BG_HEIGHT    = 896
+const ground_w = 37
+const ground_h = 128
 
 /**
  * 游戏背景类
@@ -15,16 +17,21 @@ export default class BackGround extends Sprite {
   constructor(ctx) {
     super(BG_IMG_SRC, BG_WIDTH, BG_HEIGHT)
 
+    this.ground     = new Image()
+    this.ground.src = 'images/ground.png'
+    this.ground.w = ground_w
+    this.ground.h = ground_h
+
     this.render(ctx)
 
-    this.top = 0
+    this.left = 0
   }
 
   update() {
-    this.top += 2
+    this.left -= 2
 
-    if ( this.top >= screenHeight )
-      this.top = 0
+    if ( this.left <= -screenWidth )
+      this.left = 0
   }
 
   /**
@@ -34,17 +41,6 @@ export default class BackGround extends Sprite {
    * 第二张补全除了top高度之外的部分，其余的隐藏在屏幕下面
    */
   render(ctx) {
-    ctx.drawImage(
-      this.img,
-      0,
-      0,
-      this.width,
-      this.height,
-      0,
-      -screenHeight + this.top,
-      screenWidth,
-      screenHeight
-    )
 
     ctx.drawImage(
       this.img,
@@ -53,9 +49,23 @@ export default class BackGround extends Sprite {
       this.width,
       this.height,
       0,
-      this.top,
+      0,
       screenWidth,
-      screenHeight
+      screenHeight - this.ground.h,
     )
+    for (var i = 0; i < 48; i++) {
+        ctx.drawImage(
+          this.ground,
+          0,
+          0,
+          this.ground.w,
+          this.ground.h,
+          this.left + i * this.ground.w,
+          screenHeight - this.ground.h,
+          this.ground.w,
+          this.ground.h
+        )
+    }
+
   }
 }
