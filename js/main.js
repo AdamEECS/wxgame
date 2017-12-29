@@ -1,166 +1,36 @@
-import Player     from './player/index'
-import Enemy      from './npc/enemy'
-import BackGround from './runtime/background'
-import GameInfo   from './runtime/gameinfo'
-import Music      from './runtime/music'
-import DataBus    from './databus'
+import GuaGame from './guagame/gua_game'
+import SceneTitle from './scene/title/scene_title'
+import {log, randomBetween, deleteFromElements, rectInterMiddle, rectIntersects} from './guagame/utils'
+window.log = log
+window.randomBetween = randomBetween
+window.deleteFromElements = deleteFromElements
+window.rectInterMiddle = rectInterMiddle
+window.rectIntersects = rectIntersects
 
-let ctx   = canvas.getContext('2d')
-let databus = new DataBus()
-
-/**
- * 游戏主函数
- */
-export default class Main {
-  constructor() {
-    this.restart()
-  }
-
-  restart() {
-    databus.reset()
-
-    canvas.removeEventListener(
-      'touchstart',
-      this.touchHandler
-    )
-
-    this.bg       = new BackGround(ctx)
-    this.player   = new Player(ctx)
-    this.gameinfo = new GameInfo()
-    this.music    = new Music()
-
-    window.requestAnimationFrame(
-      this.loop.bind(this),
-      canvas
-    )
-  }
-
-  /**
-   * 随着帧数变化的敌机生成逻辑
-   * 帧数取模定义成生成的频率
-   */
-  enemyGenerate() {
-    if ( databus.frame % 30 === 0 ) {
-      let enemy = databus.pool.getItemByClass('enemy', Enemy)
-      enemy.init(6)
-      databus.enemys.push(enemy)
+export default function(){
+    var images = {
+        bgDay: 'images/FlappyBird/bg_day.png',
+        bgNight: 'images/FlappyBird/bg_night.png',
+        ground: 'images/FlappyBird/land.png',
+        b1: 'images/FlappyBird/bird0_0.png',
+        b2: 'images/FlappyBird/bird0_1.png',
+        b3: 'images/FlappyBird/bird0_2.png',
+        pipe: 'images/FlappyBird/pipe_up.png',
+        over: 'images/FlappyBird/text_game_over.png',
+        score0: 'images/FlappyBird/font_048.png',
+        score1: 'images/FlappyBird/font_049.png',
+        score2: 'images/FlappyBird/font_050.png',
+        score3: 'images/FlappyBird/font_051.png',
+        score4: 'images/FlappyBird/font_052.png',
+        score5: 'images/FlappyBird/font_053.png',
+        score6: 'images/FlappyBird/font_054.png',
+        score7: 'images/FlappyBird/font_055.png',
+        score8: 'images/FlappyBird/font_056.png',
+        score9: 'images/FlappyBird/font_057.png',
+        
     }
-  }
-
-  // 全局碰撞检测
-  collisionDetection() {
-    let that = this
-
-    databus.bullets.forEach((bullet) => {
-      for ( let i = 0, il = databus.enemys.length; i < il;i++ ) {
-        let enemy = databus.enemys[i]
-
-        if ( !enemy.isPlaying && enemy.isCollideWith(bullet) ) {
-          enemy.playAnimation()
-          that.music.playExplosion()
-
-          bullet.visible = false
-          databus.score  += 1
-
-          break
-        }
-      }
+    var game = GuaGame.instance(30, images, function (g) {
+        var s = SceneTitle.new(g)
+        g.runWithScene(s)
     })
-
-    for ( let i = 0, il = databus.enemys.length; i < il;i++ ) {
-      let enemy = databus.enemys[i]
-
-      if ( this.player.isCollideWith(enemy) ) {
-        databus.gameOver = true
-
-        break
-      }
-    }
-  }
-
-  //游戏结束后的触摸事件处理逻辑
-  touchEventHandler(e) {
-     e.preventDefault()
-
-    let x = e.touches[0].clientX
-    let y = e.touches[0].clientY
-
-    let area = this.gameinfo.btnArea
-
-    if (   x >= area.startX
-        && x <= area.endX
-        && y >= area.startY
-        && y <= area.endY  )
-      this.restart()
-    }
-
-    /**
-     * canvas重绘函数
-     * 每一帧重新绘制所有的需要展示的元素
-     */
-    render() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-    this.bg.render(ctx)
-
-    databus.bullets
-           .concat(databus.enemys)
-           .forEach((item) => {
-              item.drawToCanvas(ctx)
-            })
-
-    this.player.drawToCanvas(ctx)
-
-    databus.animations.forEach((ani) => {
-      if ( ani.isPlaying ) {
-        ani.aniRender(ctx)
-      }
-    })
-
-    this.gameinfo.renderGameScore(ctx, databus.score)
-  }
-
-  // 游戏逻辑更新主函数
-  update() {
-    this.bg.update()
-    this.player.update()
-
-    databus.bullets
-           .concat(databus.enemys)
-           .forEach((item) => {
-              item.update()
-            })
-
-    // this.enemyGenerate()
-
-    this.collisionDetection()
-  }
-
-  // 实现游戏帧循环
-  loop() {
-    databus.frame++
-
-    this.update()
-    this.render()
-
-    if ( databus.frame % 20 === 0 ) {
-    //   this.player.shoot()
-    //   this.music.playShoot()
-    }
-
-    // 游戏结束停止帧循环
-    if ( databus.gameOver ) {
-      this.gameinfo.renderGameOver(ctx, databus.score)
-
-      this.touchHandler = this.touchEventHandler.bind(this)
-      canvas.addEventListener('touchstart', this.touchHandler)
-
-      return
-    }
-
-    window.requestAnimationFrame(
-      this.loop.bind(this),
-      canvas
-    )
-  }
 }
