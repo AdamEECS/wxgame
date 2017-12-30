@@ -1,13 +1,14 @@
 import GuaScene from '../../guagame/gua_scene'
 import SceneImage from '../../guagame/scene_image'
 import Grounds from '../../scene/main/grounds'
+import Background from '../../scene/main/background'
 import Birds from '../../scene/main/birds'
 
 export default class SceneTitle extends GuaScene {
     constructor(game) {
         super(game)
         // 背景
-        var bg = SceneImage.new(game, 'bgDay')
+        let bg = Background.new(game, 'bgDay')
         this.addElement(bg)          
         
         // 小鸟
@@ -28,10 +29,6 @@ export default class SceneTitle extends GuaScene {
     }
     setupInputs() {
         var game = this.game
-        // game.registerAction('w', function(keyStatus) {
-        //     var s = Scene.new(game)
-        //     game.replaceScene(s)
-        // })
     }
     draw() {
         super.draw()
