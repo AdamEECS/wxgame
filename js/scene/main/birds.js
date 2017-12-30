@@ -13,11 +13,13 @@ export default class Birds extends GuaAnimation {
                 var t = this.game.textureByName(name)
                 action.push(t)
         }
+        let ground = this.game.textureByName('ground')
         this.animations['fly'] = action
         this.animationName = 'fly'
         this.texture = this.frames()[0]
         this.w = this.texture.width
         this.h = this.texture.height
+        this.hBottom = window.innerHeight - ground.height - 33
         this.initPosition()
         this.frameIndex = 0
         this.frameCount = this.actionNumber()
@@ -48,11 +50,11 @@ export default class Birds extends GuaAnimation {
             return
         }
         this.y += this.vy
-        this.vy += this.gy * 0.1
-        var h = 395
-        var top = -10
-        var left = -10
-        var right = 250
+        this.vy += this.gy * 0.05
+        let h = this.hBottom
+        let top = -10
+        let left = -10
+        let right = window.innerWidth
         // 上下边界控制
         if (this.y > h) {
             this.y = h
@@ -68,22 +70,21 @@ export default class Birds extends GuaAnimation {
         }
         // 更新角度
         if (this.rotation < 35) {
-            this.rotation += 3
+            this.rotation += 2
         }
-        // 更新图片
 
         this.checkCollide()
         
     }
     checkCollide() {
-        var pipes = this.game.scene.pipe.pipes
-        var a = this
-        for (var i = 0; i < pipes.length; i ++) {
-            var b = pipes[i]
-            if(rectIntersects(b, a) || rectIntersects(a, b)){
-                this.hit = true
-            }
-        }
+        // var pipes = this.game.scene.pipe.pipes
+        // var a = this
+        // for (var i = 0; i < pipes.length; i ++) {
+        //     var b = pipes[i]
+        //     if(rectIntersects(b, a) || rectIntersects(a, b)){
+        //         this.hit = true
+        //     }
+        // }
     }
     
 }

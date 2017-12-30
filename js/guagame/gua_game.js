@@ -10,14 +10,6 @@ export default class GuaGame {
         self.keydowns = {}
         self.canvas = canvas
         self.context = self.canvas.getContext('2d')
-        canvas.addEventListener('touchstart', event => {
-            self.keydowns["touched"] = "start"
-            log('start!!!')
-        })
-        canvas.addEventListener('touchend', function(event){
-            self.keydowns["touched"] = "end"
-            log('end!!!')
-        })
         self.init()
     }
 
@@ -43,15 +35,6 @@ export default class GuaGame {
     runloop() {
         // events
         var g = this
-        var actionLength = Object.keys(g.actions)
-        // log(g.actions)
-        for (var i = 0; i < actionLength.length; i++) {
-            var key = actionLength[i]
-            var status = g.keydowns[key]
-            if (status == "start") {
-                g.actions[key]("start")
-            }
-        }
         // update
         g.update()
         // clear

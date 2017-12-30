@@ -1,4 +1,5 @@
 import GuaScene from '../../guagame/gua_scene'
+import Scene from '../../scene/main/scene'
 import SceneImage from '../../guagame/scene_image'
 import Grounds from '../../scene/main/grounds'
 import Background from '../../scene/main/background'
@@ -35,11 +36,12 @@ export default class SceneTitle extends GuaScene {
     }
     setupInputs() {
         var game = this.game
-        game.registerAction('touched', function(keyStatus) {
-            log('dadada')
-            // var s = Scene.new(game)
-            // game.replaceScene(s)
-        })
+        let handler = event => {
+            let s = Scene.new(game)
+            game.replaceScene(s)
+            game.canvas.removeEventListener('touchstart', handler)
+        }
+        game.canvas.addEventListener('touchstart', handler)
     }
     draw() {
         super.draw()
