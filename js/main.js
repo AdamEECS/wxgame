@@ -27,7 +27,7 @@ export default function(){
         score7: 'images/FlappyBird/font_055.png',
         score8: 'images/FlappyBird/font_056.png',
         score9: 'images/FlappyBird/font_057.png',
-        
+        title: 'images/FlappyBird/title.png',
     }
     var game = GuaGame.instance(30, images, function (g) {
         var s = SceneTitle.new(g)

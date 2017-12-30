@@ -16,10 +16,9 @@ export default class Birds extends GuaAnimation {
         this.animations['fly'] = action
         this.animationName = 'fly'
         this.texture = this.frames()[0]
-        this.x = 100
-        this.y = 250
         this.w = this.texture.width
         this.h = this.texture.height
+        this.initPosition()
         this.frameIndex = 0
         this.frameCount = this.actionNumber()
         // 重力和加速度
@@ -33,6 +32,14 @@ export default class Birds extends GuaAnimation {
     jump() {
         this.vy = -5
         this.rotation = -35
+    }
+    initPosition() {
+        let w = window.innerWidth
+        let h = window.innerHeight
+        let x = Math.floor(w / 2 - this.w / 2) 
+        let y = Math.floor(h / 2 )
+        this.x = x
+        this.y = y
     }
     update() {
         // 更新受力

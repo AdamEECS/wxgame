@@ -56,7 +56,7 @@ export default class GuaGame {
     textureByName(name) {
         var g = this
         var img = g.images[name]
-        
+        log('img', img)
         return img
     }
     runWithScene(scene) {
@@ -85,8 +85,13 @@ export default class GuaGame {
             var path = g.images[name]
             let img = new Image()
             img.src = path
-            g.images[name] = img
+            img.onload = function() {
+                g.images[name] = img
+                loads.push(1)
+                if (loads.length == names.length) {
+                    g.__start()
+                }
+            }
         }
-        g.__start()
     }
 }

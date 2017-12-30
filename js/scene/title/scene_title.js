@@ -10,28 +10,32 @@ export default class SceneTitle extends GuaScene {
         // 背景
         let bg = Background.new(game, 'bgDay')
         this.addElement(bg)          
-        
+        this.initTitle()
         // 小鸟
         var bird = Birds.new(this.game)
         this.bird = bird
-        
         this.addElement(bird)
-
         // 地面  
         var grounds = Grounds.new(game)
         this.grounds = grounds
         this.addElement(this.grounds)
-        this.setupInputs()
     }
     update() {
         super.update()
         
     }
-    setupInputs() {
-        var game = this.game
+    initTitle() {
+        let title = SceneImage.new(this.game, 'title')
+        let w = window.innerWidth
+        let h = window.innerHeight
+        title.x = Math.floor((w - title.w) / 2)
+        title.y = Math.floor((h / 3))
+        this.addElement(title)
     }
     draw() {
         super.draw()
-        this.game.context.fillText(`按 w 开始游戏`, 90, 230)
+        let w = Math.floor(window.innerWidth / 2 - 40)
+        let h = Math.floor(window.innerHeight / 2 - 30)
+        this.game.context.fillText(`点击 开始游戏`, w, h)
     }
 }
