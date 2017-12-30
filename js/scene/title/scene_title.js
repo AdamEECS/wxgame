@@ -19,6 +19,7 @@ export default class SceneTitle extends GuaScene {
         var grounds = Grounds.new(game)
         this.grounds = grounds
         this.addElement(this.grounds)
+        this.setupInputs()
     }
     update() {
         super.update()
@@ -31,6 +32,14 @@ export default class SceneTitle extends GuaScene {
         title.x = Math.floor((w - title.w) / 2)
         title.y = Math.floor((h / 3))
         this.addElement(title)
+    }
+    setupInputs() {
+        var game = this.game
+        game.registerAction('touched', function(keyStatus) {
+            log('dadada')
+            // var s = Scene.new(game)
+            // game.replaceScene(s)
+        })
     }
     draw() {
         super.draw()

@@ -49,7 +49,7 @@ export default class Scene extends GuaScene {
     }
     setupInputs() {
         var self = this
-        self.game.registerAction('w', function(keyStatus) {
+        self.game.registerAction('touchstart', function(keyStatus) {
             var b = self.bird
             b.jump()
         })
