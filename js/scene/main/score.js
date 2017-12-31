@@ -7,8 +7,10 @@ export default class Score {
             this.numberList.push(number)
         }
         this.showList = []
-        this.x = 130
-        this.y = 60
+        let w = window.innerWidth
+        let h = window.innerHeight
+        this.x = Math.floor((w / 2))
+        this.y = Math.floor((h / 8))
         this.show = 0
     }
     static new(game) {

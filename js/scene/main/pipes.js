@@ -12,8 +12,10 @@ export default class Pipes {
         for (var i = 0; i < this.columsOfPipe; i++) {
             var p1 = SceneImage.new(game, 'pipe')
             p1.flipY = true
-            p1.x = 500 + i * this.pipeGap
+            p1.throughed = false  // 作穿越判定
+            p1.x = 2 * window.innerWidth + i * this.pipeGap
             var p2 = SceneImage.new(game, 'pipe')
+            p2.throughed = false
             p2.x = p1.x
             this.resetPipesPosition(p1, p2)
             this.pipes.push(p1)
@@ -25,15 +27,17 @@ export default class Pipes {
     }
     
     resetPipesPosition(p1, p2) {
-        p1.y = randomBetween(-200, 0)
+        let h = Math.floor(window.innerHeight / 4)
+        p1.y = randomBetween(-h, 0)
         p2.y = p1.y + p1.h + this.pipeSpace
 
     }
     update() {
         for (var p of this.pipes){
-            p.x -= 5
+            p.x -= 4
             if (p.x < - 100) {
                 p.x += this.pipeGap * this.columsOfPipe
+                p.throughed = false
             }
         }
     }

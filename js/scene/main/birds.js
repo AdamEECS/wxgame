@@ -77,14 +77,14 @@ export default class Birds extends GuaAnimation {
         
     }
     checkCollide() {
-        // var pipes = this.game.scene.pipe.pipes
-        // var a = this
-        // for (var i = 0; i < pipes.length; i ++) {
-        //     var b = pipes[i]
-        //     if(rectIntersects(b, a) || rectIntersects(a, b)){
-        //         this.hit = true
-        //     }
-        // }
+        let pipes = this.game.scene.pipe.pipes
+        let a = this
+        for (let i = 0; i < pipes.length; i ++) {
+            let b = pipes[i]
+            if(rectIntersects(b, a) || rectIntersects(a, b)){
+                this.hit = true
+            }
+        }
     }
     
 }

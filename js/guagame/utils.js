@@ -28,12 +28,19 @@ var rectIntersects = function(a, b) {
     }
     return false
 }
-
+/**
+ * 现专用于 穿越水管
+ * @param {*} a 
+ * @param {*} b 
+ * @param {*} c 
+ */
 var rectInterMiddle = function(a, b, c) {
     var o = a
-    if (o.x === b.x && o.y > b.y) {
-        if (o.x === c.x && o.y < c.y) {
-            return true
+    if (!b.throughed && !c.throughed) {
+        if (o.x > b.x && o.y > b.y) {
+            if (o.x > c.x && o.y < c.y) {
+                return true
+            }
         }
     }
     return false

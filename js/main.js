@@ -1,11 +1,18 @@
 import GuaGame from './guagame/gua_game'
 import SceneTitle from './scene/title/scene_title'
+import SceneEnd from './scene/end/scene_end'
+import SceneMain from './scene/main/scene'
 import {log, randomBetween, deleteFromElements, rectInterMiddle, rectIntersects} from './guagame/utils'
+
 window.log = log
 window.randomBetween = randomBetween
 window.deleteFromElements = deleteFromElements
 window.rectInterMiddle = rectInterMiddle
 window.rectIntersects = rectIntersects
+window.SceneTitle = SceneTitle
+window.SceneMain = SceneMain
+window.SceneEnd = SceneEnd
+
 
 export default function(){
     var images = {

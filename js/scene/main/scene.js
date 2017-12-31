@@ -36,29 +36,33 @@ export default class Scene extends GuaScene {
     }
     update() {
         super.update()
-        var game = this.game
-        // if (this.bird.hit) {
-        //     var s = SceneEnd.new(game)
-        //     s.score.show = this.scoreNumber
-        //     game.replaceScene(s)
-        // }
-        // var pipes = this.pipe.pipes
-        // for (let i = 0; i < pipes.length / 2; i ++){
-        //     let a = i * 2
-        //     let b = a + 1
-        //     if (rectInterMiddle(this.bird, pipes[a], pipes[b])) {
-        //         this.scoreNumber ++
-        //         this.score.show = this.scoreNumber
-        //     }
-        // }
+        let self = this        
+        let game = self.game
+        if (this.bird.hit) {
+            let s = SceneEnd.new(game)
+            s.score.show = self.scoreNumber
+            game.canvas.removeEventListener('touchstart', self.touchHandler)
+            game.replaceScene(s)
+        }
+        let pipes = this.pipe.pipes
+        for (let i = 0; i < pipes.length / 2; i ++){
+            let p1 = pipes[i * 2]
+            let p2 = pipes[i * 2 + 1]
+            if (rectInterMiddle(this.bird, p1, p2)) {
+                p1.throughed = p2.throughed = true
+                this.scoreNumber ++
+                this.score.show = this.scoreNumber
+            }
+        }
     }
     setupInputs() {
         let self = this
         let game = self.game
-        game.canvas.addEventListener('touchstart', event => {
+        self.touchHandler = event => {
             let b = self.bird
             b.jump()
-        })
+        }
+        game.canvas.addEventListener('touchstart', self.touchHandler)
     }
     draw() {
         super.draw()
