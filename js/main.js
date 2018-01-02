@@ -40,9 +40,9 @@ export default class Main {
    * 帧数取模定义成生成的频率
    */
   enemyGenerate() {
-    if ( databus.frame % 30 === 0 ) {
+    if ( databus.frame % 90 === 0 ) {
       let enemy = databus.pool.getItemByClass('enemy', Enemy)
-      enemy.init(6)
+      enemy.init(2)
       databus.enemys.push(enemy)
     }
   }
@@ -131,7 +131,7 @@ export default class Main {
               item.update()
             })
 
-    // this.enemyGenerate()
+    this.enemyGenerate()
 
     this.collisionDetection()
   }

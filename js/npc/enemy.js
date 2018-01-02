@@ -1,9 +1,9 @@
 import Animation from '../base/animation'
 import DataBus   from '../databus'
 
-const ENEMY_IMG_SRC = 'images/enemy.png'
-const ENEMY_WIDTH   = 60
-const ENEMY_HEIGHT  = 60
+const ENEMY_IMG_SRC = 'images/pipe.png'
+const ENEMY_WIDTH   = 69
+const ENEMY_HEIGHT  = 397
 
 const __ = {
   speed: Symbol('speed')
@@ -23,10 +23,10 @@ export default class Enemy extends Animation {
   }
 
   init(speed) {
-    this.x = rnd(0, window.innerWidth - ENEMY_WIDTH)
-    this.y = -this.height
+    this.x = rnd(window.innerWidth, window.innerWidth * 2)
+    this.y = this.height + 10
 
-    this[__.speed] = speed
+    this.speed = speed
 
     this.visible = true
   }
@@ -47,10 +47,10 @@ export default class Enemy extends Animation {
 
   // 每一帧更新子弹位置
   update() {
-    this.y += this[__.speed]
+    this.x -= this.speed
 
     // 对象回收
-    if ( this.y > window.innerHeight + this.height )
+    if ( this.x < -this.width )
       databus.removeEnemey(this)
   }
 }
